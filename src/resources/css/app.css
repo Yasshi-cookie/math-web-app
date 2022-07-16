@@ -1,0 +1,101 @@
+#inputs-amida-col {
+    display: flex;
+    margin: 15px 0px 15px 10px;
+}
+.input-box {
+    margin: 10px;
+}
+#input-col-number {
+    margin: 6px 0px 24px 24px;
+    width: 48px;
+    height: 5px;
+}
+#update-button {
+    margin: 10px;
+}
+#reset-button {
+    background-color: gray;
+    color: white;
+    margin: 10px;
+}
+#reset-line-button {
+    background-color: rgba(128, 128, 128, 0.736);
+    color: white;
+    margin: 10px;
+}
+.show-result-button {
+    display: flex;
+    /* margin: 10px 0px 20px 80px; */
+}
+#show-result-button {
+    margin: 3vw 5vw 2vw 5vw;
+}
+#hide-result-button {
+    margin: 3vw 0vw 2vw 5vw;
+    background-color: gray;
+}
+#whether-shuffle {
+    margin: 3vw 2vw 2vw 5vw;
+}
+
+/* input */
+/* 入出力行 */
+/* 入出力行のlist */
+.list-inputs-outputs {
+    list-style: none;
+    margin: 6px 4px 6px 0px;
+}
+/* 入出力行のinput要素 */
+.list-inputs-outputs input{
+    height: 16px;
+    width: 18vw;
+}
+.list-inputs-outputs .list-inputs{
+    margin: 1px 4px 1px 0px;
+}
+/* 入力行のinput要素 */
+.list-inputs-outputs .list-outputs{
+    margin: 1px 0px 1px 30px;
+}
+
+
+.amidas {
+    margin: 20px;
+}
+.amida-line {
+    display: flex;
+    margin: 0px 0px 0px 0px;
+}
+.amida-row {
+    list-style: none;
+    width: 20vw;
+    height: 4vw;
+    margin-top: 0px;
+    border-left: 2px solid;
+    /* border-bottom: 2px solid; */
+}
+.crossed {
+    border-bottom: 2px solid;
+}
+
+/* あみだくじ */
+/* 入力部分 */
+.inputs-line-for-display {
+    display: flex;
+    margin: 0px 0px 0px 0px;
+}
+.inputs-for-display {
+    list-style: none;
+    width: 20vw;
+    margin: 0px 0px 0px -3px;
+}
+/* 出力部分 */
+.outputs-line-for-display {
+    display: flex;
+    margin: 0px 0px 0px 0px;
+}
+.outputs-for-display {
+    list-style: none;
+    width: 20vw;
+    margin: 0px 0px 0px -3px;
+}
