@@ -138,7 +138,7 @@ srcにはLaraveをインスールしておく。
 
 [[簡単]React x LaravelのSPAで作るチュートリアル①(環境構築編)](https://qiita.com/ucan-lab/items/56c9dc3cf2e6762672f4)の[Reactの環境構築](https://qiita.com/morry_48/items/abd620f051fb4f36dcc2#react%E3%81%AE%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89)から進めていく。
 
-laravel/uiとreactを導する。
+laravel/uiとreactを導入する。
 ```bash
 # UIパッケージ導入
 $ docker compose exec app composer require laravel/ui
@@ -242,8 +242,6 @@ if (document.getElementById('app')) {
 
 routes/web.phpを修正。
 ```php
-<?php
-
 use Illuminate\Support\Facades\Route;
 
 // （中略）
@@ -261,3 +259,10 @@ $ docker compose exec web sh
 ```
 
 [http://localhost:8080/](http://localhost:8080/)にアクセスして、変更が反映されていればOKです。
+### トラブルシューティング
+**キャッシュが残っている場合**
+- スーパーリロード（command + shift + R）する
+- Laravelのキャッシュをクリアする。参考：[Laravel キャッシュクリア系コマンドなど](https://qiita.com/Ping/items/10ada8d069e13d729701)
+
+**それでもなおらな場合**
+- public/app.js と public/app.cssを削除した後に、dockerのwebコンテナ内で`npm run dev`としてください。（すると、app.jsとapp.cssが自動で生成されます）
