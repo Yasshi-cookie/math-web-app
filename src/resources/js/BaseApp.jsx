@@ -20,6 +20,9 @@ ReactDOM.render(
                 <li>
                     <Link to={"amidakuji"}>あみだくじ</Link>
                 </li>
+                <li>
+                    <Link to={"break_bricks"}>ブロック崩し</Link>
+                </li>
             </ul>
             <BaseRouter />
         </div>
