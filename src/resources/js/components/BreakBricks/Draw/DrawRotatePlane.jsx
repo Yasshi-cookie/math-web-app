@@ -33,7 +33,7 @@ export class DrawRotatePlane extends BaseDraw {
 
         // this.cRCtxt2D.translate(this.canvas.width / 2, this.canvas.height / 2);
         this.cRCtxt2D.translate(this.rotatePlane.shape.getCenter().x, this.rotatePlane.shape.getCenter().y);
-        this.cRCtxt2D.rotate(this.rotatePlane.theta);
+        this.cRCtxt2D.rotate(this.rotatePlane.angle);
         this.cRCtxt2D.translate(- this.rotatePlane.shape.getCenter().x, - this.rotatePlane.shape.getCenter().y);
 
         // this.cRCtxt2D.translate(- this.canvas.width / 2, - this.canvas.height / 2);

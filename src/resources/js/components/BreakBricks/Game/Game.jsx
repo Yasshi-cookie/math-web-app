@@ -5,7 +5,7 @@ import { BossBrick } from "../BossBrick";
 import { Brick } from "../Brick";
 import { BricksDirectProduct } from "../BricksDirectProduct";
 import { CollisionDetectBallAndRectangle } from "../CollisionDetects/CollisionDetectBallAndRectangle";
-import { RotatePlane } from "../Gimmicks/RotatePlane";
+import { RotatePlanes } from "../Gimmicks/RotatePlanes";
 import { Paddle } from "../Paddle";
 import { Keyboard } from "../UI/KeyBoard";
 import { PaddleHandler } from "./PaddleHandler";
@@ -19,7 +19,7 @@ export class Game {
     canvas;
     ball;
     paddle;
-    rotatePlane;
+    rotatePlanes;
     bricksDirectProduct;
     bossBrick;
     score = Game.initialScore;
@@ -29,7 +29,7 @@ export class Game {
      * @param {Canvas} canvas
      * @param {Ball} ball
      * @param {Paddle} paddle
-     * @param {RotatePlane} rotatePlane
+     * @param {RotatePlanes} rotatePlanes
      * @param {BricksDirectProduct} bricksDirectProduct
      * @param {BossBrick} bossBrick
      * @param {number} score
@@ -39,7 +39,7 @@ export class Game {
         canvas,
         ball,
         paddle,
-        rotatePlane,
+        rotatePlanes,
         bricksDirectProduct,
         bossBrick,
         score = Game.initialScore,
@@ -48,7 +48,7 @@ export class Game {
         this.canvas = canvas;
         this.ball = ball;
         this.paddle = paddle;
-        this.rotatePlane = rotatePlane;
+        this.rotatePlanes = rotatePlanes;
         this.bricksDirectProduct = bricksDirectProduct;
         this.bossBrick = bossBrick;
         this.score = score;
@@ -65,7 +65,7 @@ export class Game {
             canvas,
             Ball.newInitialInstanceByCanvas(canvas),
             Paddle.newInitialInstanceByCanvas(canvas),
-            new RotatePlane(),
+            new RotatePlanes(),
             new BricksDirectProduct(),
             new BossBrick(),
             Game.initialScore,

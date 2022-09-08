@@ -3,6 +3,36 @@ import { Vector } from "../Vector";
 
 export class Rectangle {
     /**
+     * @var {Vector}
+     */
+    coordinate
+
+    /**
+     * @var {number}
+     */
+    width
+
+    /**
+     * @var {number}
+     */
+    height
+
+    /**
+     * @var {number}
+     */
+    normalAngle
+
+    /**
+     * @var {Vector}
+     */
+    normalVector
+
+    /**
+     * @var {Vector}
+     */
+    tangentVector
+
+    /**
      * @param {Vector} coordinate
      * @param {number} width
      * @param {number} height
@@ -10,11 +40,16 @@ export class Rectangle {
     constructor(
         coordinate,
         width,
-        height
+        height,
+        normalAngle = Math.PI / 2
     ) {
         this.coordinate = coordinate;
         this.width = width;
         this.height = height;
+
+        this.normalAngle = normalAngle;
+        this.setNormalVector(normalAngle);
+        this.setTangentVector(normalAngle);
     }
 
     getVertexRightTop = () => {
@@ -55,6 +90,7 @@ export class Rectangle {
      * @returns {TangentPlane}
      */
     getTangentPlaneAtPoint = (point) => {
+        // pointが上下の面にあるとき
         if (
             point.x > this.coordinate.x && point.x < this.coordinate.x + this.width
             && (point.y === this.coordinate.y || point.y === this.coordinate.y + this.height)
@@ -62,6 +98,7 @@ export class Rectangle {
             return new TangentPlane(Math.PI / 2);
         }
 
+        // pointが左右の面にあるとき
         if (
             point.y > this.coordinate.y && point.y < this.coordinate.y + this.height
             && (point.x === this.coordinate.x || point.x === this.coordinate.x + this.width)
@@ -88,5 +125,20 @@ export class Rectangle {
 
         // どれにも当てはまらない場合
         return new TangentPlane(0);
+    }
+
+    /**
+     * @param {number} normalAngle
+     */
+    setNormalVector = (normalAngle) => {
+        this.normalVector = new Vector(Math.cos(normalAngle), Math.sin(normalAngle));
+    }
+
+    /**
+     * @param {number} normalAngle
+     */
+    setTangentVector = (normalAngle) => {
+        let tangentAngle = normalAngle - Math.Pi / 2;
+        this.tangentVector = new Vector(Math.cos(tangentAngle), Math.sin(tangentAngle));
     }
 }

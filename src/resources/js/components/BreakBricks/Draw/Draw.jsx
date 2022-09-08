@@ -1,6 +1,5 @@
 import { Canvas } from "../../../lib/Canvas";
 import { Game } from "../Game/Game";
-import { RotatePlane } from "../Gimmicks/RotatePlane";
 import { BaseDraw } from "./BaseDraw";
 import { DrawBall } from "./DrawBall";
 import { DrawBossBrick } from "./DrawBossBrick";
@@ -8,6 +7,7 @@ import { DrawBricks } from "./DrawBricks";
 import { DrawLives } from "./DrawLives";
 import { DrawPaddle } from "./DrawPaddle";
 import { DrawRotatePlane } from "./DrawRotatePlane";
+import { DrawRotatePlanes } from "./DrawRotatePlanes";
 import { DrawScore } from "./DrawScore";
 
 export class Draw extends BaseDraw {
@@ -40,7 +40,7 @@ export class Draw extends BaseDraw {
          * ギミック
          */
         // 回転平面
-        this.getRotatePlane().draw();
+        this.getRotatePlanes().draw();
 
         /**
          * 敵
@@ -75,9 +75,12 @@ export class Draw extends BaseDraw {
         return new DrawBall(this.game.ball, this.canvas, this.cRCtxt2D);
     }
 
-
-    getRotatePlane = () => {
-        return new DrawRotatePlane(this.game.rotatePlane, this.canvas, this.cRCtxt2D);
+    /**
+     *
+     * @returns {DrawRotatePlane}
+     */
+    getRotatePlanes = () => {
+        return new DrawRotatePlanes(this.game.rotatePlanes, this.canvas, this.cRCtxt2D);
     }
 
     /**

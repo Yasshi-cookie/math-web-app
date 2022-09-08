@@ -1,6 +1,16 @@
 export class Canvas {
+    /**
+     * @var {number}
+     */
     width;
+
+    /**
+     * @var {number}
+     */
     height;
+
+    static defaultWidth = 480;
+    static defaultHeight = 440;
 
     /**
      * @param {number} width

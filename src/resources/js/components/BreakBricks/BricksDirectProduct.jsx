@@ -24,8 +24,8 @@ export class BricksDirectProduct {
     }
 
     setInitialBricksCoordinate = () => {
-        for(var c = 0; c < Brick.columnCount; c++) {
-            for(var r = 0; r < Brick.rowCount; r++) {
+        for(let c = 0; c < Brick.columnCount; c++) {
+            for(let r = 0; r < Brick.rowCount; r++) {
                 this.#setInitialBrickCoordinate(r, c);
             }
         }
@@ -35,8 +35,8 @@ export class BricksDirectProduct {
      * @returns {Array<Bricks>}
      */
     static getInitialBricksDirectProduct = () => {
-        var bricksDirectProduct = [];
-        for (var c = 0; c < Brick.columnCount; c++) {
+        let bricksDirectProduct = [];
+        for (let c = 0; c < Brick.columnCount; c++) {
             bricksDirectProduct[c] = new Bricks();
         }
 
