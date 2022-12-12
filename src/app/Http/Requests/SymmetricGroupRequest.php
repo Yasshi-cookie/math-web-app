@@ -22,7 +22,21 @@ class SymmetricGroupRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'amidas' => 'required',
+            'amidas' => [
+                // amidas
+                'required',
+                'array',
+            ],
+            'amidas.*' => [
+                // amidasの要素
+                'required',
+                'array',
+            ],
+            'amidas.*.*' => [
+                // amidasの要素（配列）の要素
+                'required',
+                'bool',
+            ],
         ];
     }
 
@@ -34,7 +48,9 @@ class SymmetricGroupRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            'amidas.required' => 'amidasは必須パラメータです。'
+            'amidas.*' => 'amidasには配列を入れてください。',
+            'amidas.*.*' => 'amidasの中は配列を入れてください。',
+            'amidas.*.*.*' => 'amidasの中の配列の中にはbool値を入れてください。',
         ];
     }
 
