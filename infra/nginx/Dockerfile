@@ -3,4 +3,7 @@ FROM nginx:1.20-alpine
 RUN apk update && \
     apk add npm
 
+COPY ./infra/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./src /data
+
 WORKDIR /data

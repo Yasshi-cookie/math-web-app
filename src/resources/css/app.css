@@ -25,17 +25,18 @@
 }
 .show-result-button {
     display: flex;
-    /* margin: 10px 0px 20px 80px; */
-}
-#show-result-button {
-    margin: 3vw 5vw 2vw 5vw;
+    flex-direction: row;
+    gap: 20px;
+    margin: 10px 0px 20px 40px;
 }
 #hide-result-button {
-    margin: 3vw 0vw 2vw 5vw;
     background-color: gray;
 }
 #whether-shuffle {
     margin: 3vw 2vw 2vw 5vw;
+}
+.results {
+    margin-left: 20px;
 }
 
 /* input */

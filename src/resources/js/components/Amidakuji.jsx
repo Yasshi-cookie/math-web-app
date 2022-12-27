@@ -206,11 +206,13 @@ const Amidakuji = () => {
     const onChangeInputInputsTextField = (e, index) => {
         inputs[index] = e.target.value;
         setInputs(inputs);
+        updateResult();
     }
 
     const onChangeInputOutputsTextField = (e, index) => {
         outputs[index] = e.target.value;
         setOutputs(outputs);
+        updateResult();
     }
 
     const getInitialLineAmidas = () => {
@@ -244,7 +246,6 @@ const Amidakuji = () => {
         setWhetherShuffle(e.target.checked);
     }
 
-    // TODO: 既存Web Mathアプリのディレクトリ構成を再現する。ひとまずあみだくじのみ作成する。
     return (
         <div>
             <div id="inputs-amida-col">
@@ -262,52 +263,44 @@ const Amidakuji = () => {
                     <Button id="reset-button" variant="contained" onClick={onClickResetButton}>リセット</Button>
                 </div>
             </div>
-            <div id="input-inputs-outputs">
-                {(() => {
-                    const items = [];
-                    for (let i = 0; i < colNumber; i++) {
-                        items.push(
-                            <li key={"list-inputs-outputs-" + i} className='list-inputs-outputs'>
-                                <TextField onChange={(e) => {onChangeInputInputsTextField(e, i)}} className="list-inputs" label={"入力" + i} variant="outlined" />
-                                <TextField onChange={(e) => {onChangeInputOutputsTextField(e, i)}} className="list-outputs" label={"出力" + i} variant="outlined" />
-                            </li>
-                        )
-                    }
-                    return <ul>{items}</ul>;
-                })()}
-            </div>
 
             {/* あみだくじ */}
-            <div className="amidas">
+            <div className="amidas" style={{display: "flex", flexDirection: "column", gap: "10px"}}>
                 {/* 入力部分 */}
                 <ul className='inputs-line-for-display'>
                     {inputs.map((input, col) => {
                         return (
-                            <li key={"input-" + col} className="inputs-for-display">{inputs[col]}</li>
+                            <li key={"input-" + col} className="inputs-for-display">
+                                <TextField onChange={(e) => {onChangeInputInputsTextField(e, col)}} className="list-inputs" label={"参加者" + (col + 1)} variant="outlined" size="small" sx={{width: (1 / inputs.length) * 300 + "%"}}/>
+                            </li>
                         )
                     })}
                 </ul>
                 {/*　本体 */}
-                {amidas.map((amida, line) => {
-                    return (
-                        <ul key={"line-" + line} className="amida-line">
-                            {amida.map((boolean, col) => {
-                                return (
-                                    (line !== amidas.length - 1)
-                                        ? <li key={"col-" + col} className={"amida-row " + getClassNameByActiveFlg(boolean)} onClick={() => onClickLine(line, col)}></li>
-                                        // 最後の行は横線を出力しない
-                                        : <li key={"col-" + col} className="amida-row"></li>
-                                )
-                            })}
-                            <li className="amida-row"></li>
-                        </ul>
-                    )
-                })}
+                <div className='amida-body'>
+                    {amidas.map((amida, line) => {
+                        return (
+                            <ul key={"line-" + line} className="amida-line">
+                                {amida.map((boolean, col) => {
+                                    return (
+                                        (line !== amidas.length - 1)
+                                            ? <li key={"col-" + col} className={"amida-row " + getClassNameByActiveFlg(boolean)} onClick={() => onClickLine(line, col)}></li>
+                                            // 最後の行は横線を出力しない
+                                            : <li key={"col-" + col} className="amida-row"></li>
+                                    )
+                                })}
+                                <li className="amida-row"></li>
+                            </ul>
+                        )
+                    })}
+                </div>
                 {/* 出力部分 */}
                 <ul className="outputs-line-for-display">
-                    {resultShowFlg && outputs.map((output, col) => {
+                    {outputs.map((output, col) => {
                         return (
-                            <li key={"output-" + col} className="outputs-for-display">{outputs[col]}</li>
+                            <li key={"output-" + col} className="outputs-for-display">
+                                <TextField onChange={(e) => {onChangeInputOutputsTextField(e, col)}} className="list-outputs" label={"賞品" + (col + 1)} variant="outlined" size="small" sx={{width: (1 / outputs.length) * 300 + "%"}} />
+                            </li>
                         )
                     })}
                 </ul>
