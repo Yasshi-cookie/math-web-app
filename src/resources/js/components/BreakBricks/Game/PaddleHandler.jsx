@@ -1,5 +1,5 @@
 import { Paddle } from "../Paddle";
-import { Keyboard } from "../UI/KeyBoard";
+import { Keyboard } from "../UI/Keyboard";
 
 export class PaddleHandler {
     /**
