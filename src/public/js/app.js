@@ -27610,11 +27610,13 @@ var Amidakuji = function Amidakuji() {
   var onChangeInputInputsTextField = function onChangeInputInputsTextField(e, index) {
     inputs[index] = e.target.value;
     setInputs(inputs);
+    updateResult();
   };
 
   var onChangeInputOutputsTextField = function onChangeInputOutputsTextField(e, index) {
     outputs[index] = e.target.value;
     setOutputs(outputs);
+    updateResult();
   };
 
   var getInitialLineAmidas = function getInitialLineAmidas() {
@@ -27651,8 +27653,7 @@ var Amidakuji = function Amidakuji() {
 
   var onClickWhetherShuffleCheckBox = function onClickWhetherShuffleCheckBox(e) {
     setWhetherShuffle(e.target.checked);
-  }; // TODO: 既存Web Mathアプリのディレクトリ構成を再現する。ひとまずあみだくじのみ作成する。
-
+  };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -27692,73 +27693,69 @@ var Amidakuji = function Amidakuji() {
           children: "\u30EA\u30BB\u30C3\u30C8"
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-      id: "input-inputs-outputs",
-      children: function () {
-        var items = [];
-
-        var _loop = function _loop(i) {
-          items.push( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
-            className: "list-inputs-outputs",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_mui_material__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              onChange: function onChange(e) {
-                onChangeInputInputsTextField(e, i);
-              },
-              className: "list-inputs",
-              label: "入力" + i,
-              variant: "outlined"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_mui_material__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              onChange: function onChange(e) {
-                onChangeInputOutputsTextField(e, i);
-              },
-              className: "list-outputs",
-              label: "出力" + i,
-              variant: "outlined"
-            })]
-          }, "list-inputs-outputs-" + i));
-        };
-
-        for (var i = 0; i < colNumber; i++) {
-          _loop(i);
-        }
-
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
-          children: items
-        });
-      }()
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "amidas",
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px"
+      },
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
         className: "inputs-line-for-display",
         children: inputs.map(function (input, col) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
             className: "inputs-for-display",
-            children: inputs[col]
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_mui_material__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              onChange: function onChange(e) {
+                onChangeInputInputsTextField(e, col);
+              },
+              className: "list-inputs",
+              label: "参加者" + (col + 1),
+              variant: "outlined",
+              size: "small",
+              sx: {
+                width: 1 / inputs.length * 300 + "%"
+              }
+            })
           }, "input-" + col);
         })
-      }), amidas.map(function (amida, line) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
-          className: "amida-line",
-          children: [amida.map(function (_boolean, col) {
-            return line !== amidas.length - 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
-              className: "amida-row " + getClassNameByActiveFlg(_boolean),
-              onClick: function onClick() {
-                return onClickLine(line, col);
-              }
-            }, "col-" + col) // 最後の行は横線を出力しない
-            : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "amida-body",
+        children: amidas.map(function (amida, line) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
+            className: "amida-line",
+            children: [amida.map(function (_boolean, col) {
+              return line !== amidas.length - 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+                className: "amida-row " + getClassNameByActiveFlg(_boolean),
+                onClick: function onClick() {
+                  return onClickLine(line, col);
+                }
+              }, "col-" + col) // 最後の行は横線を出力しない
+              : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+                className: "amida-row"
+              }, "col-" + col);
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
               className: "amida-row"
-            }, "col-" + col);
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
-            className: "amida-row"
-          })]
-        }, "line-" + line);
+            })]
+          }, "line-" + line);
+        })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
         className: "outputs-line-for-display",
-        children: resultShowFlg && outputs.map(function (output, col) {
+        children: outputs.map(function (output, col) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
             className: "outputs-for-display",
-            children: outputs[col]
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_mui_material__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              onChange: function onChange(e) {
+                onChangeInputOutputsTextField(e, col);
+              },
+              className: "list-outputs",
+              label: "賞品" + (col + 1),
+              variant: "outlined",
+              size: "small",
+              sx: {
+                width: 1 / outputs.length * 300 + "%"
+              }
+            })
           }, "output-" + col);
         })
       })]
@@ -36038,7 +36035,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#inputs-amida-col {\n    display: flex;\n    margin: 15px 0px 15px 10px;\n}\n.input-box {\n    margin: 10px;\n}\n#input-col-number {\n    margin: 6px 0px 24px 24px;\n    width: 48px;\n    height: 5px;\n}\n#update-button {\n    margin: 10px;\n}\n#reset-button {\n    background-color: gray;\n    color: white;\n    margin: 10px;\n}\n#reset-line-button {\n    background-color: rgba(128, 128, 128, 0.736);\n    color: white;\n    margin: 10px;\n}\n.show-result-button {\n    display: flex;\n    /* margin: 10px 0px 20px 80px; */\n}\n#show-result-button {\n    margin: 3vw 5vw 2vw 5vw;\n}\n#hide-result-button {\n    margin: 3vw 0vw 2vw 5vw;\n    background-color: gray;\n}\n#whether-shuffle {\n    margin: 3vw 2vw 2vw 5vw;\n}\n\n/* input */\n/* 入出力行 */\n/* 入出力行のlist */\n.list-inputs-outputs {\n    list-style: none;\n    margin: 6px 4px 6px 0px;\n}\n/* 入出力行のinput要素 */\n.list-inputs-outputs input{\n    height: 16px;\n    width: 18vw;\n}\n.list-inputs-outputs .list-inputs{\n    margin: 1px 4px 1px 0px;\n}\n/* 入力行のinput要素 */\n.list-inputs-outputs .list-outputs{\n    margin: 1px 0px 1px 30px;\n}\n\n\n.amidas {\n    margin: 20px;\n}\n.amida-line {\n    display: flex;\n    margin: 0px 0px 0px 0px;\n}\n.amida-row {\n    list-style: none;\n    width: 20vw;\n    height: 4vw;\n    margin-top: 0px;\n    border-left: 2px solid;\n    /* border-bottom: 2px solid; */\n}\n.crossed {\n    border-bottom: 2px solid;\n}\n\n/* あみだくじ */\n/* 入力部分 */\n.inputs-line-for-display {\n    display: flex;\n    margin: 0px 0px 0px 0px;\n}\n.inputs-for-display {\n    list-style: none;\n    width: 20vw;\n    margin: 0px 0px 0px -3px;\n}\n/* 出力部分 */\n.outputs-line-for-display {\n    display: flex;\n    margin: 0px 0px 0px 0px;\n}\n.outputs-for-display {\n    list-style: none;\n    width: 20vw;\n    margin: 0px 0px 0px -3px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "#inputs-amida-col {\n    display: flex;\n    margin: 15px 0px 15px 10px;\n}\n.input-box {\n    margin: 10px;\n}\n#input-col-number {\n    margin: 6px 0px 24px 24px;\n    width: 48px;\n    height: 5px;\n}\n#update-button {\n    margin: 10px;\n}\n#reset-button {\n    background-color: gray;\n    color: white;\n    margin: 10px;\n}\n#reset-line-button {\n    background-color: rgba(128, 128, 128, 0.736);\n    color: white;\n    margin: 10px;\n}\n.show-result-button {\n    display: flex;\n    flex-direction: row;\n    gap: 20px;\n    margin: 10px 0px 20px 40px;\n}\n#hide-result-button {\n    background-color: gray;\n}\n#whether-shuffle {\n    margin: 3vw 2vw 2vw 5vw;\n}\n.results {\n    margin-left: 20px;\n}\n\n/* input */\n/* 入出力行 */\n/* 入出力行のlist */\n.list-inputs-outputs {\n    list-style: none;\n    margin: 6px 4px 6px 0px;\n}\n/* 入出力行のinput要素 */\n.list-inputs-outputs input{\n    height: 16px;\n    width: 18vw;\n}\n.list-inputs-outputs .list-inputs{\n    margin: 1px 4px 1px 0px;\n}\n/* 入力行のinput要素 */\n.list-inputs-outputs .list-outputs{\n    margin: 1px 0px 1px 30px;\n}\n\n\n.amidas {\n    margin: 20px;\n}\n.amida-line {\n    display: flex;\n    margin: 0px 0px 0px 0px;\n}\n.amida-row {\n    list-style: none;\n    width: 20vw;\n    height: 4vw;\n    margin-top: 0px;\n    border-left: 2px solid;\n    /* border-bottom: 2px solid; */\n}\n.crossed {\n    border-bottom: 2px solid;\n}\n\n/* あみだくじ */\n/* 入力部分 */\n.inputs-line-for-display {\n    display: flex;\n    margin: 0px 0px 0px 0px;\n}\n.inputs-for-display {\n    list-style: none;\n    width: 20vw;\n    margin: 0px 0px 0px -3px;\n}\n/* 出力部分 */\n.outputs-line-for-display {\n    display: flex;\n    margin: 0px 0px 0px 0px;\n}\n.outputs-for-display {\n    list-style: none;\n    width: 20vw;\n    margin: 0px 0px 0px -3px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
