@@ -7,7 +7,7 @@ import { BricksDirectProduct } from "../BricksDirectProduct";
 import { CollisionDetectBallAndRectangle } from "../CollisionDetects/CollisionDetectBallAndRectangle";
 import { RotatePlanes } from "../Gimmicks/RotatePlanes";
 import { Paddle } from "../Paddle";
-import { Keyboard } from "../UI/KeyBoard";
+import { Keyboard } from "../UI/Keyboard";
 import { PaddleHandler } from "./PaddleHandler";
 
 /**
