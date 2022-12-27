@@ -29574,7 +29574,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CollisionDetects_CollisionDetectBallAndRectangle__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../CollisionDetects/CollisionDetectBallAndRectangle */ "./resources/js/components/BreakBricks/CollisionDetects/CollisionDetectBallAndRectangle.jsx");
 /* harmony import */ var _Gimmicks_RotatePlanes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Gimmicks/RotatePlanes */ "./resources/js/components/BreakBricks/Gimmicks/RotatePlanes.jsx");
 /* harmony import */ var _Paddle__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Paddle */ "./resources/js/components/BreakBricks/Paddle.jsx");
-/* harmony import */ var _UI_KeyBoard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../UI/KeyBoard */ "./resources/js/components/BreakBricks/UI/KeyBoard.jsx");
+/* harmony import */ var _UI_Keyboard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../UI/Keyboard */ "./resources/js/components/BreakBricks/UI/Keyboard.jsx");
 /* harmony import */ var _PaddleHandler__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./PaddleHandler */ "./resources/js/components/BreakBricks/Game/PaddleHandler.jsx");
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
@@ -29848,7 +29848,7 @@ function Game(canvas, ball, paddle, rotatePlanes, bricksDirectProduct, _bossBric
 _defineProperty(Game, "initialScore", 0);
 
 _defineProperty(Game, "newInitialInstanceByCanvas", function (canvas) {
-  return new Game(canvas, _Ball__WEBPACK_IMPORTED_MODULE_2__.Ball.newInitialInstanceByCanvas(canvas), _Paddle__WEBPACK_IMPORTED_MODULE_8__.Paddle.newInitialInstanceByCanvas(canvas), new _Gimmicks_RotatePlanes__WEBPACK_IMPORTED_MODULE_7__.RotatePlanes(), new _BricksDirectProduct__WEBPACK_IMPORTED_MODULE_5__.BricksDirectProduct(), new _BossBrick__WEBPACK_IMPORTED_MODULE_3__.BossBrick(), Game.initialScore, new _UI_KeyBoard__WEBPACK_IMPORTED_MODULE_9__.Keyboard());
+  return new Game(canvas, _Ball__WEBPACK_IMPORTED_MODULE_2__.Ball.newInitialInstanceByCanvas(canvas), _Paddle__WEBPACK_IMPORTED_MODULE_8__.Paddle.newInitialInstanceByCanvas(canvas), new _Gimmicks_RotatePlanes__WEBPACK_IMPORTED_MODULE_7__.RotatePlanes(), new _BricksDirectProduct__WEBPACK_IMPORTED_MODULE_5__.BricksDirectProduct(), new _BossBrick__WEBPACK_IMPORTED_MODULE_3__.BossBrick(), Game.initialScore, new _UI_Keyboard__WEBPACK_IMPORTED_MODULE_9__.Keyboard());
 });
 
 /***/ }),
@@ -29865,7 +29865,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "PaddleHandler": () => (/* binding */ PaddleHandler)
 /* harmony export */ });
 /* harmony import */ var _Paddle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Paddle */ "./resources/js/components/BreakBricks/Paddle.jsx");
-/* harmony import */ var _UI_KeyBoard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../UI/KeyBoard */ "./resources/js/components/BreakBricks/UI/KeyBoard.jsx");
+/* harmony import */ var _UI_Keyboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../UI/Keyboard */ "./resources/js/components/BreakBricks/UI/Keyboard.jsx");
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -30234,9 +30234,9 @@ var _getInitialShapeCoordinateByCanvas = {
 
 /***/ }),
 
-/***/ "./resources/js/components/BreakBricks/UI/KeyBoard.jsx":
+/***/ "./resources/js/components/BreakBricks/UI/Keyboard.jsx":
 /*!*************************************************************!*\
-  !*** ./resources/js/components/BreakBricks/UI/KeyBoard.jsx ***!
+  !*** ./resources/js/components/BreakBricks/UI/Keyboard.jsx ***!
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
