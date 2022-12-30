@@ -1,0 +1,130 @@
+# TODO:
+# ①Nginxの箇所を修正（Container Nameなど）
+# ②task_definitionsの秘密情報を外部から注入する
+## 参考：
+### 既存のタスク定義ファイルをダウンロードして使用する（リポジトリにタスク定義ファイルを置かない）
+### https://github.com/aws-actions/amazon-ecs-deploy-task-definition#task-definition-file
+### https://zenn.dev/nagi125/articles/754347b9f0a13154c957
+
+# このワークフローは、新しいコンテナイメージをビルドしてAmazon ECRにプッシュします。
+# そして、$default-branchブランチへのプッシュがあったときに、新しいタスク定義をAmazon ECSにデプロイします。
+
+# このワークフローを使用するには、次のセットアップ手順を完了する必要があります。
+
+# 1. ECRリポジトリを作成して、イメージを保存します。
+#    例えば、`aws ecr create-repository --repository-name my-ecr-repo --region us-east-2` とします。
+#    以下のワークフローで、環境変数 `ECR_REPOSITORY` の値をリポジトリの名前に置き換えます。
+#    以下のワークフローの環境変数 `AWS_REGION` の値を、リポジトリの地域に置き換えます。
+
+# 2. ECSタスク定義、ECSクラスタ、およびECSサービスを作成します。
+#    例えば、ECSコンソールのGetting Startedガイドに従います。
+#      https://us-east-2.console.aws.amazon.com/ecs/home?region=us-east-2#/firstRun
+#    以下のワークフローの環境変数 `ECS_SERVICE` の値を、Amazon ECS サービスに設定した名前に置き換えます。
+#    以下のワークフローの環境変数 `ECS_CLUSTER` の値を、クラスタに設定した名前に置き換えます。
+
+# 3. ECSタスクの定義をJSONファイルとしてリポジトリに保存します。
+#    フォーマットは `aws ecs register-task-definition --generate-cli-skeleton` の出力に従ったものである必要があります。
+#    以下のワークフローで、環境変数 `ECS_TASK_DEFINITION` の値を、JSONファイルへのパスに置き換えます。
+#    以下のワークフローの `CONTAINER_NAME` 環境変数の値を、`containerDefinition' にあるコンテナの名前に置き換えます。タスク定義の `containerDefinitions` セクションにあるコンテナの名前に置き換えます。
+
+# 4. IAM ユーザーのアクセスキーを、GitHub Actions の secret にある `AWS_ACCESS_KEY_ID` と `AWS_SECRET_ACCESS_KEY` という名前で保存します。
+#    この IAM ユーザーの推奨 IAM ポリシーと、アクセスキーのクレデンシャルを扱うベストプラクティスについては、以下で使用する各アクションのドキュメントを参照してください。
+
+name: Deploy to Amazon ECS
+
+on: [ workflow_dispatch ]
+
+env:
+  AWS_REGION: ap-northeast-1                   # set this to your preferred AWS region, e.g. us-west-1
+  ECR_REPOSITORY: math-web-app                 # set this to your Amazon ECR repository name
+  ECS_SERVICE: math-web-app-service4           # set this to your Amazon ECS service name
+  ECS_CLUSTER: math-web-app                    # set this to your Amazon ECS cluster name
+  AWS_ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:ecr-ecs-deploy-role/
+
+  CONTAINER_NAME_PHP: app
+  CONTAINER_NAME_NGINX: web
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: ${{ env.AWS_ROLE_ARN }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    # ECRにdocker imageをpushする
+    ## PHP
+    - name: PHPコンテナをECRにpushする
+      id: build-php-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: app
+      run: |
+        # Build a docker container and
+        # push it to ECR so that it can
+        # be deployed to ECS.
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "image-php=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+    ## Nginx
+    - name: NginxコンテナをECRにpushする
+      id: build-nginx-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: web
+      run: |
+        # Build a docker container and
+        # push it to ECR so that it can
+        # be deployed to ECS.
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "image-nginx=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+    # ECSのタスク定義をセット
+    ## タスク定義を既存のタスク定義からダウンロード
+    - name: Download task definition
+      run: |
+        aws ecs describe-task-definition --task-definition ${{ secrets.ECS_TASK_DEFINITION }} --query taskDefinition > task-definition.json
+    ## PHP
+    - name: Amazon ECSのタスク定義にPHPのコンテナイメージを設定する
+      id: task-def-php
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME_PHP }}
+        image: ${{ steps.build-php-image.outputs.image }}
+
+    ## Nginx
+    - name: Amazon ECSのタスク定義にNginxのコンテナイメージを設定する
+      id: task-def-nginx
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        # task-def-phpで設定したtask-definitionと同じものをセット
+        task-definition: ${{ steps.task-def-php.outputs.task-definition }}
+        container-name: ${{ env.CONTAINER_NAME_NGINX }}
+        image: ${{ steps.build-nginx-image.outputs.image }}
+
+    # 共通
+    - name: Amazon ECSのタスク定義をデプロイする
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
