@@ -24,7 +24,7 @@
 
 # 3. ECSタスクの定義をJSONファイルとしてリポジトリに保存します。
 #    フォーマットは `aws ecs register-task-definition --generate-cli-skeleton` の出力に従ったものである必要があります。
-#    以下のワークフローで、環境変数 `ECS_TASK_DEFINITION` の値を、JSONファイルへのパスに置き換えます。
+#    以下のワークフローで、環境変数 `ECS_TASK_DEFINITION_PATH` の値を、JSONファイルへのパスに置き換えます。
 #    以下のワークフローの `CONTAINER_NAME` 環境変数の値を、`containerDefinition' にあるコンテナの名前に置き換えます。タスク定義の `containerDefinitions` セクションにあるコンテナの名前に置き換えます。
 
 # 4. IAM ユーザーのアクセスキーを、GitHub Actions の secret にある `AWS_ACCESS_KEY_ID` と `AWS_SECRET_ACCESS_KEY` という名前で保存します。
@@ -39,6 +39,8 @@ env:
   ECR_REPOSITORY: math-web-app                 # set this to your Amazon ECR repository name
   ECS_SERVICE: math-web-app-service4           # set this to your Amazon ECS service name
   ECS_CLUSTER: math-web-app                    # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: math-web-app2
+  ECS_TASK_DEFINITION_PATH: task-definition.json
   AWS_ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/deploy-to-ecr-ecs-role
   CONTAINER_NAME_PHP: app
   CONTAINER_NAME_NGINX: web
@@ -102,13 +104,13 @@ jobs:
     ## タスク定義を既存のタスク定義からダウンロード
     - name: Download task definition
       run: |
-        aws ecs describe-task-definition --task-definition ${{ secrets.ECS_TASK_DEFINITION }} --query taskDefinition > task-definition.json
+        aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} --query taskDefinition > ${{ env.ECS_TASK_DEFINITION_PATH }}
     ## PHP
     - name: Amazon ECSのタスク定義にPHPのコンテナイメージを設定する
       id: task-def-php
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        task-definition: ${{ env.ECS_TASK_DEFINITION_PATH }}
         container-name: ${{ env.CONTAINER_NAME_PHP }}
         image: ${{ steps.build-php-image.outputs.image }}
 
