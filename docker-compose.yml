@@ -6,6 +6,7 @@ services:
       dockerfile: ./infra/php/Dockerfile
     volumes:
       - ./src:/data
+      - ./infra/php/php.ini:/usr/local/etc/php/php.ini
 
   web:
     build:
