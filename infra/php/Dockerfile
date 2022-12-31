@@ -11,6 +11,4 @@ RUN apt-get update && \
   apt-get -y install --no-install-recommends git unzip libzip-dev libicu-dev libonig-dev && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
-  docker-php-ext-install intl pdo_mysql zip bcmath && \
-  cd src && \
-  composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+  docker-php-ext-install intl pdo_mysql zip bcmath
