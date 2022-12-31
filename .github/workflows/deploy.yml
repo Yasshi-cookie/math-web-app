@@ -73,7 +73,7 @@ jobs:
 
     - name: Composer Install
       working-directory: ./src
-      run: composer install -quiet --no-ansi --no-interaction --no-plugins --no-scripts --no-progress --prefer-dist
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
     # ECRにdocker imageをpushする
     ## PHP
