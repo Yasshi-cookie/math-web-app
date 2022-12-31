@@ -45,6 +45,7 @@ env:
   CONTAINER_NAME_NGINX: web
 
 permissions:
+  id-token: write
   contents: read
 
 jobs:
