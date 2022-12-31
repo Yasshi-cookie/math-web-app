@@ -71,10 +71,6 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Composer Install
-      working-directory: ./src
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
     # ECRにdocker imageをpushする
     ## PHP
     - name: PHPコンテナをECRにpushする
