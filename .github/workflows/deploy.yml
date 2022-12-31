@@ -56,7 +56,7 @@ jobs:
     environment: production
 
     steps:
-    - name: Checkout
+    - name: チェックアウト（ソースコードをリポジトリから落としてくる）
       uses: actions/checkout@v3
 
     - name: Configure AWS credentials
@@ -70,6 +70,9 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Composer Install
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
     # ECRにdocker imageをpushする
     ## PHP
