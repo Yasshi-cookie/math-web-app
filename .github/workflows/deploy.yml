@@ -39,7 +39,7 @@ env:
   ECR_REPOSITORY: math-web-app                 # set this to your Amazon ECR repository name
   ECS_SERVICE: math-web-app-service4           # set this to your Amazon ECS service name
   ECS_CLUSTER: math-web-app                    # set this to your Amazon ECS cluster name
-  AWS_ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:ecr-ecs-deploy-role/
+  AWS_ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/ecr-ecs-deploy-role/
 
   CONTAINER_NAME_PHP: app
   CONTAINER_NAME_NGINX: web
