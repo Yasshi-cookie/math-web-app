@@ -80,6 +80,7 @@ jobs:
     - run: |
         npm ci
         npm run dev
+      working-directory: src
 
     - name: envファイルコピー
       run: |
