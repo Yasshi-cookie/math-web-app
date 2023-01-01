@@ -77,7 +77,7 @@ jobs:
       with:
         node-version: 16
         cache: 'npm'
-      working-directory: src
+        cache-dependency-path: './src/package-lock.json'
     - run: |
         ls
         pwd
