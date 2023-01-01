@@ -81,6 +81,12 @@ jobs:
         npm ci
         npm run dev
 
+    - name: envファイルコピー
+      run: |
+        touch .env
+        cp .env.prod .env
+      working-directory: src
+
     # ECRにdocker imageをpushする
     ## PHP
     - name: PHPコンテナをECRにpushする
