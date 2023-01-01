@@ -18,4 +18,4 @@ RUN apt-get update && \
   docker-php-ext-install intl pdo_mysql zip bcmath
 
 # vendorインストール
-RUN composer install -q --no-ansi --no-interaction --no-scripts --prefer-dist && \
+RUN composer install -q --no-ansi --no-interaction --no-scripts --prefer-dist
