@@ -17,5 +17,6 @@ RUN apt-get update && \
   rm -rf /var/lib/apt/lists/* && \
   docker-php-ext-install intl pdo_mysql zip bcmath
 
-# vendorインストール
-RUN composer install -q --no-ansi --no-interaction --no-scripts --prefer-dist
+# vendorインストール 権限変更
+RUN composer install -q --no-ansi --no-interaction --no-scripts --prefer-dist && \
+  chmod -R 777 storage bootstrap/cache
