@@ -81,7 +81,7 @@ jobs:
     - run: |
         ls
         pwd
-        npm ci
+        npm install
         npm run dev
       working-directory: src
 
