@@ -1,6 +1,7 @@
 # TODO:
-# ①Nginxの箇所を修正（Container Nameなど）
-# ②task_definitionsの秘密情報を外部から注入する
+# .gitignoreに指定しているファイル（node_modules、js・scssのバンドル、envファイルなど）
+# （完了）Nginxの箇所を修正（Container Nameなど）
+# （完了）task_definitionsの秘密情報を外部から注入する
 ## 参考：
 ### 既存のタスク定義ファイルをダウンロードして使用する（リポジトリにタスク定義ファイルを置かない）
 ### https://github.com/aws-actions/amazon-ecs-deploy-task-definition#task-definition-file
@@ -70,6 +71,21 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Node Modulesをインストール
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+    - run: |
+        npm ci
+        npm run dev
+
+    - name: envファイルコピー
+      run: |
+        touch .env
+        cp .env.prod .env
+      working-directory: src
 
     # ECRにdocker imageをpushする
     ## PHP
